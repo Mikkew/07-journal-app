@@ -1,0 +1,34 @@
+[debug] [2021-01-27T03:52:20.293Z] ----------------------------------------------------------------------
+[debug] [2021-01-27T03:52:20.297Z] Command:       /usr/bin/node /usr/local/bin/firebase init
+[debug] [2021-01-27T03:52:20.298Z] CLI Version:   9.2.2
+[debug] [2021-01-27T03:52:20.298Z] Platform:      linux
+[debug] [2021-01-27T03:52:20.298Z] Node Version:  v14.15.4
+[debug] [2021-01-27T03:52:20.299Z] Time:          Tue Jan 26 2021 21:52:20 GMT-0600 (hora estándar central)
+[debug] [2021-01-27T03:52:20.299Z] ----------------------------------------------------------------------
+[debug] [2021-01-27T03:52:20.300Z] 
+[debug] [2021-01-27T03:52:20.354Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-01-27T03:52:20.358Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/mikkew/Documentos/Cursos/React/07-journal-app
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
+[debug] [2021-01-27T06:04:42.264Z] TypeError: Cannot read property 'setRawMode' of null
+    at ReadStream.setRawMode (tty.js:75:28)
+    at Interface._setRawMode (readline.js:298:16)
+    at Interface.close (readline.js:421:10)
+    at ReadStream.ontermend (readline.js:209:10)
+    at ReadStream.emit (events.js:327:22)
+    at ReadStream.EventEmitter.emit (domain.js:467:12)
+    at endReadableNT (internal/streams/readable.js:1327:12)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
