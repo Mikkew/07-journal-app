@@ -1,11 +1,9 @@
-import {
-  firebase,
-  googleAuthProvider,
-  db,
-} from "../../firebase/firebaseConfig";
-import Swal from 'sweetalert2';
+import { firebase, googleAuthProvider } from "../../firebase/firebaseConfig";
+import Swal from "sweetalert2";
 import { types } from "../types/types";
 import { finishLoading, setError, startLoading } from "./ui";
+import { createUser } from "../../firebase/helpers/createUser";
+import { getUserProfile } from "../../firebase/helpers/getUserProfile";
 
 export const startLoginEmailPassword = (email, password) => {
   return (dispatch) => {
@@ -14,44 +12,20 @@ export const startLoginEmailPassword = (email, password) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then( async({ user }) => {
+      .then(({ user }) => {
         // console.log(user);
 
-
-        await db.collection("Usuarios")
-          .where("uId", "==", user.uid)
-          .get()
-          .then((query) => {
-
-            //console.log(query);
-
-            query.forEach((doc) => {
-
-              // console.log(doc.data(), uid, displayName);
-
-              const { lastName, name } = doc.data();
-              dispatch(login(user.uid, user.displayName, email, name, lastName));
-             
-            });
-          })
-          .catch(error => {
-            dispatch(setError(error));
-          });
-
-
+        getUserProfile(user, dispatch, login);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("Error", error);
         dispatch(setError(error));
-        
-        Swal.fire( 'Error', error.message, 'error');
 
+        Swal.fire("Error", error.message, "error");
       })
       .finally(() => {
         dispatch(finishLoading());
       });
-
-   
   };
 };
 
@@ -76,7 +50,7 @@ export const startRegisterWithEmailPasswordName = (
   email,
   password
 ) => {
-  return () => {
+  return (dispatch) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -85,20 +59,7 @@ export const startRegisterWithEmailPasswordName = (
           displayName: `${name} ${lastName}`,
         });
 
-        await db
-          .collection("Usuarios")
-          .add({
-            uId: user.uid,
-            name,
-            lastName,
-            email,
-          })
-          .then((userRegister) => {
-            console.log("Insersion de Usuario Extitoso", userRegister);
-          })
-          .catch((error) => {
-            console.log("Error", error);
-          });
+        createUser(user, name, lastName, dispatch, login);
       })
       .catch((error) => {
         console.log("Error", error);
@@ -107,13 +68,12 @@ export const startRegisterWithEmailPasswordName = (
 };
 
 export const startLogout = () => {
-  return async(dispatch) => {
+  return async (dispatch) => {
     await firebase.auth().signOut();
     console.log("Conexion cerrada");
-    dispatch( logout() );
-  }
+    dispatch(logout());
+  };
 };
-
 
 export const login = (uid, displayName, email, name, lastName) => ({
   type: types.authLogin,
@@ -122,8 +82,8 @@ export const login = (uid, displayName, email, name, lastName) => ({
     displayName,
     email,
     name,
-    lastName
-  }
+    lastName,
+  },
 });
 
 export const logout = () => ({

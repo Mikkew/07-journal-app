@@ -1,26 +1,34 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { activeNote } from "../../redux/actions/notes";
 
-export const JournalEntry = () => {
+export const JournalEntry = ({ id, title, body, date, url, imageName }) => {
+  const dispatch = useDispatch();
+  const month = date.toDate().toLocaleString("es-MX", {month: 'short'});
+  const day = date.toDate().toLocaleString("es-MX", {day: 'numeric'});
+
+  const handleClick = () => {
+    dispatch( activeNote( id, {date, title, body, url, imageName} ) )
+  }
+
   return (
-    <div className="journal__entry pointer">
+    <div className="journal__entry pointer" onClick={handleClick}>
       <div
         className="journal__entry-picture"
         style={{
           backgroundSize: "cover",
-          backgroundImage:
-            "url(https://cdn.pixabay.com/photo/2020/07/23/01/16/heritage-5430081_960_720.jpg)",
+          backgroundImage: `url(${url})`,
         }}
       ></div>
+
       <div className="journal__entry-body">
-        <p className="journal__entry-title">Un nuevo día</p>
-        <p className="journal__entry-content">
-          Reprehenderit id in duis consectetur deserunt veniam fugiat.
-        </p>
+        <p className="journal__entry-title">{title}</p>
+        <p className="journal__entry-content">{body}</p>
       </div>
 
-      <div className="journal__entry-date-box">
-        <span>Monday</span>
-        <h4>28</h4>
+      <div className="journal__entry-body">
+        <span>{month}</span>
+        <h4>{day}</h4>
       </div>
     </div>
   );
